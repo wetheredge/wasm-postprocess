@@ -126,7 +126,7 @@ fn main() {
     }
 
     let output_bytes = module.emit_wasm();
-    let output_path = [&input_path, ".multivalue.wasm"].concat();
+    let output_path = input_path.replace(".wasm", ".multivalue.wasm");
     fs::write(&output_path, output_bytes)
         .unwrap_or_else(|_| panic!("failed to write `{output_path}`"));
 }
