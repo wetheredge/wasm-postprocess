@@ -31,18 +31,18 @@ fn parse_args(args: &[String]) -> (String, Vec<(String, Vec<ValType>)>) {
                     "f32" => ValType::F32,
                     "f64" => ValType::F64,
                     _ => panic!(
-                        "unnkown return type `{}`. It must be one of i32 |  i64 | f32 | f64.",
+                        "unknown return type `{}`. It must be one of i32 | i64 | f32 | f64.",
                         raw_type
                     ),
                 })
                 .collect();
-            if val_types.len() < 2 {
-                panic!(
-                    "there must be at least two return types for function `{}`, \
-                else it's not a multi-value return",
-                    function_name
-                );
-            }
+
+            assert!(
+                val_types.len() >= 2,
+                "there must be at least two return types for function `{}`, else it's not a multi-value return",
+                function_name
+            );
+
             (function_name, val_types)
         })
         .collect();
@@ -55,10 +55,7 @@ fn get_ids_by_name(module: &Module, function_name: &str) -> (ExportId, FunctionI
         .exports
         .iter()
         .find(|&exp| exp.name == function_name)
-        .expect(&format!(
-            "cannot find function with name `{}`",
-            function_name
-        ));
+        .unwrap_or_else(|| panic!("cannot find function with name `{function_name}`"));
 
     match export.item {
         ExportItem::Function(function_id) => (export.id(), function_id),
@@ -66,7 +63,7 @@ fn get_ids_by_name(module: &Module, function_name: &str) -> (ExportId, FunctionI
     }
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 3 {
         println!(
@@ -78,8 +75,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let (input_path, transformations) = parse_args(&args[1..]);
 
     let wasm = wit_text::parse_file(&input_path)
-        .expect(&format!("input file `{}` can be read", input_path));
-    wit_validator::validate(&wasm).expect(&format!("failed to validate `{}`", input_path));
+        .unwrap_or_else(|_| panic!("input file `{input_path}` can be read"));
+    wit_validator::validate(&wasm).unwrap_or_else(|_| panic!("failed to validate `{input_path}`"));
     let mut module = walrus::ModuleConfig::new()
         // Skip validation of the module as LLVM's output is
         // generally already well-formed and so we won't gain much
@@ -104,7 +101,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 function_name, result_types
             );
             let (_export_id, function_id) = get_ids_by_name(&module, function_name);
-            (function_id, 0, result_types.to_vec())
+            (function_id, 0, result_types.clone())
         })
         .collect();
     let export_ids: Vec<ExportId> = transformations
@@ -130,6 +127,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let output_bytes = module.emit_wasm();
     let output_path = [&input_path, ".multivalue.wasm"].concat();
-    fs::write(&output_path, output_bytes).expect(&format!("failed to write `{}`", output_path));
-    Ok(())
+    fs::write(&output_path, output_bytes)
+        .unwrap_or_else(|_| panic!("failed to write `{output_path}`"));
 }
