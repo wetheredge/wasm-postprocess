@@ -1,8 +1,5 @@
-[package]
-name = "wasm-set-start"
-version = "0.1.0"
-edition = "2021"
-publish = false
-
-[dependencies]
-walrus = "0.20.1"
+[workspace]
+resolver = "2"
+members = [
+  "wasm-set-start",
+]
