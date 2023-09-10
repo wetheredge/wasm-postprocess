@@ -1,6 +1,10 @@
 version: 2
 updates:
   - package-ecosystem: cargo
-    directory: '/'
+    directory: '/wasm-set-start/'
+    schedule:
+      interval: weekly
+  - package-ecosystem: cargo
+    directory: '/wasm-multi-value-reverse-polyfill/'
     schedule:
       interval: weekly

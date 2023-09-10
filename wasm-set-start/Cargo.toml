@@ -1,8 +1,9 @@
 [package]
 name = "wasm-set-start"
 version = "0.1.0"
-edition = "2021"
-publish = false
+
+edition.workspace = true
+publish.workspace = true
 
 [dependencies]
 walrus = "0.20.1"

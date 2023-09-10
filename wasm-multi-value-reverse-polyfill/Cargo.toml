@@ -1,8 +1,10 @@
 [package]
-name = "multi-value-reverse-polyfill"
+name = "wasm-multi-value-reverse-polyfill"
 version = "0.1.0"
 authors = ["Volker Mische <volker.mische@gmail.com>"]
-edition = "2021"
+
+edition.workspace = true
+publish.workspace = true
 
 [dependencies]
 walrus = "0.19.0"
