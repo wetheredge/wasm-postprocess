@@ -67,16 +67,13 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 3 {
         println!(
-            "Usage: {} wasm-file 'function1 i32 i32' 'function2 f32 f64'",
+            "Usage: {} file.wasm 'function1 i32 i32' 'function2 f32 f64'",
             args[0]
         );
         process::exit(1);
     }
     let (input_path, transformations) = parse_args(&args[1..]);
 
-    let wasm = wit_text::parse_file(&input_path)
-        .unwrap_or_else(|_| panic!("input file `{input_path}` can be read"));
-    wit_validator::validate(&wasm).unwrap_or_else(|_| panic!("failed to validate `{input_path}`"));
     let mut module = walrus::ModuleConfig::new()
         // Skip validation of the module as LLVM's output is
         // generally already well-formed and so we won't gain much
@@ -85,8 +82,7 @@ fn main() {
         // include shared memory, so it fails that part of
         // validation!
         .strict_validate(false)
-        .on_parse(wit_walrus::on_parse)
-        .parse(&wasm)
+        .parse_file(&input_path)
         .expect("failed to parse input file as wasm");
 
     let shadow_stack_pointer = wasm_bindgen_wasm_conventions::get_shadow_stack_pointer(&module)

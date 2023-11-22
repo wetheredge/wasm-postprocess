@@ -9,6 +9,3 @@ publish = false
 walrus = "0.19.0"
 wasm-bindgen-multi-value-xform = "0.2.87"
 wasm-bindgen-wasm-conventions = "0.2.87"
-wit-text = "0.8.0"
-wit-validator = "0.2.1"
-wit-walrus = "0.6.0"

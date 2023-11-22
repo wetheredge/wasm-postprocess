@@ -199,9 +199,6 @@ dependencies = [
  "walrus 0.19.0",
  "wasm-bindgen-multi-value-xform",
  "wasm-bindgen-wasm-conventions",
- "wit-text",
- "wit-validator",
- "wit-walrus",
 ]
 
 [[package]]
@@ -210,12 +207,6 @@ version = "0.1.0"
 dependencies = [
  "walrus 0.20.1",
 ]
-
-[[package]]
-name = "wasmparser"
-version = "0.59.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a950e6a618f62147fd514ff445b2a0b53120d382751960797f85f058c7eda9b9"
 
 [[package]]
 name = "wasmparser"
@@ -228,76 +219,3 @@ name = "wasmparser"
 version = "0.80.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "449167e2832691a1bff24cde28d2804e90e09586a448c8e76984792c44334a6b"
-
-[[package]]
-name = "wast"
-version = "21.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0b1844f66a2bc8526d71690104c0e78a8e59ffa1597b7245769d174ebb91deb5"
-dependencies = [
- "leb128",
-]
-
-[[package]]
-name = "wit-parser"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3f5fd97866f4b9c8e1ed57bcf9446f3d0d8ba37e2dd01c3c612c046c053b06f7"
-dependencies = [
- "anyhow",
- "leb128",
- "wit-schema-version",
-]
-
-[[package]]
-name = "wit-schema-version"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bfee4a6a4716eefa0682e7a3b836152e894a3e4f34a9d6c2c3e1c94429bfe36a"
-
-[[package]]
-name = "wit-text"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "33358e95c77d660f1c7c07f4a93c2bd89768965e844e3c50730bb4b42658df5f"
-dependencies = [
- "anyhow",
- "wast",
- "wit-writer",
-]
-
-[[package]]
-name = "wit-validator"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3c11d93d925420e7872b226c4161849c32be38385ccab026b88df99d8ddc6ba6"
-dependencies = [
- "anyhow",
- "wasmparser 0.59.0",
- "wit-parser",
- "wit-schema-version",
-]
-
-[[package]]
-name = "wit-walrus"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad559e3e4c6404b2a6a675d44129d62a3836e3b951b90112fa1c5feb852757cd"
-dependencies = [
- "anyhow",
- "id-arena",
- "walrus 0.19.0",
- "wit-parser",
- "wit-schema-version",
- "wit-writer",
-]
-
-[[package]]
-name = "wit-writer"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2ad01ba5e9cbcff799a0689e56a153776ea694cec777f605938cb9880d41a09"
-dependencies = [
- "leb128",
- "wit-schema-version",
-]
